@@ -1,0 +1,22 @@
+{
+    "name": "baocaocnweb/appointment",
+    "autoload": {
+        "psr-4": {
+            "Baocaocnweb\\Appointment\\": [
+                "src/"
+            ]
+        },
+        "classmap": [
+            "src",
+            "system"
+        ]
+    },
+    "require": {
+        "components/jquery": "3.5.*",
+        "twbs/bootstrap": "5.0.2",
+        "illuminate/database": "^8.83",
+        "jenssegers/blade": "*",
+        "illuminate/events": "^8.83",
+        "phpmailer/phpmailer": "^6.6"
+    }
+}
