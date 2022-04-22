@@ -72,41 +72,57 @@ class AppointmentController extends DController
             $bookingModel->status = 'S1';
             $token = bin2hex(random_bytes(8));
             $bookingModel->token = $token;
-            $bookingModel->save();
 
-            $timeApm = AllcodesModel::where('keymap', $_POST['timetype'])->first();
-            $doctor = UsersModel::find($_POST['doctorid']);
+            $bookingModeldate = BookingModel::where('date', $_POST['date'])
+                ->where('timetype', $_POST['timetype'])
+                ->where('doctorid', $_POST['doctorid'])
+                ->first();
 
+            if ($bookingModeldate) {
+                echo '
+                <div class="msg-content-user" 
+                    style="font-size: 23px; font-weight: 600; color: #bf0000;">
+                        Bác sĩ này đã có lịch hẹn trùng với thời gian bạn chọn</br>
+                        Vui lòng chọn bác sĩ khác hoặc thời gian khác.
+                    </div>  
+                
+                ';
+            } else {
+                $bookingModel->save();
 
-            if ($bookingModel->save() == 1) {
-                //Create an instance; passing `true` enables exceptions
-                $mail = new PHPMailer(true);
-                try {
-                    //Server settings
-                    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                    $mail->isSMTP();                                            //Send using SMTP
-                    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                    $mail->Username   = USER_MAILER;                     //SMTP username
-                    $mail->Password   = PASSWORD_MAILER;                               //SMTP password
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-                    //Recipients
-                    $mail->setFrom(USER_MAILER, 'TAMKECARE');
-                    $mail->addAddress($_POST['customerEmail'], $_POST['customerName']);     //Add a recipient
+                $timeApm = AllcodesModel::where('keymap', $_POST['timetype'])->first();
+                $doctor = UsersModel::find($_POST['doctorid']);
 
 
+                if ($bookingModel->save() == 1) {
+                    //Create an instance; passing `true` enables exceptions
+                    $mail = new PHPMailer(true);
+                    try {
+                        //Server settings
+                        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                        $mail->isSMTP();                                            //Send using SMTP
+                        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                        $mail->Username   = USER_MAILER;                     //SMTP username
+                        $mail->Password   = PASSWORD_MAILER;                               //SMTP password
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+                        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-                    //Attachments
-                    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                        //Recipients
+                        $mail->setFrom(USER_MAILER, 'TAMKECARE');
+                        $mail->addAddress($_POST['customerEmail'], $_POST['customerName']);     //Add a recipient
 
-                    //Content
-                    $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = 'Thank you for trusting';
-                    $mail->Body    = '
-                    
+
+
+                        //Attachments
+                        // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+                        //Content
+                        $mail->isHTML(true);                                  //Set email format to HTML
+                        $mail->Subject = 'Thank you for trusting';
+                        $mail->Body    = '
+
                     <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;">
                         <center style="width: 100%; background-color: #ffff;">
                         <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
@@ -161,36 +177,37 @@ class AppointmentController extends DController
                                 </table>
                                 </td>
                                 </tr><!-- end tr -->
-                            
-                    
+
+
                         </div>
                         </center>
                     </body>
-                    
+
                     ';
-                    // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                        // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-                    $mail->send();
-                } catch (Exception $e) {
-                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                        $mail->send();
+                    } catch (Exception $e) {
+                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    }
+
+                    echo '
+                        <div class="msg-content-user" 
+                        style="font-size: 23px; font-weight: 600; color: var(--main-sidebar);">
+                            Đặt lịch khám thành công !! </br>
+                            Vui lòng kiểm tra email.
+                        </div>
+
+                    ';
+                } else {
+                    echo '
+                            <div class="msg-content-user" 
+                            style="font-size: 23px; font-weight: 600; color: #bf0000;">
+                                Vui lòng kiểm tra lại thông tin ¬¬
+                            </div>  
+
+                        ';
                 }
-
-                echo '
-                <div class="msg-content-user" 
-                style="font-size: 23px; font-weight: 600; color: var(--main-sidebar);">
-                    Đặt lịch khám thành công !! </br>
-                    Vui lòng kiểm tra email.
-                </div>
-                
-            ';
-            } else {
-                echo '
-                <div class="msg-content-user" 
-                style="font-size: 23px; font-weight: 600; color: #bf0000;">
-                    Vui lòng kiểm tra lại thông tin ¬¬
-                </div>  
-
-            ';
             }
         } else {
             echo '
