@@ -50,7 +50,7 @@ selectPosition.onchange = function () {
                     }
                 });
 
-              
+
 
                 let selectDoctor = document.querySelectorAll('.select-doctor');
 
@@ -60,9 +60,14 @@ selectPosition.onchange = function () {
                         let id = e.target.id;
                         let labelDR = document.querySelector(`#label-${id}`);
                         let labelSlDr = document.querySelectorAll('.label-sl-dr');
+
+                        let inputId = document.querySelector(`.dr-select-${id}`);
+                        let inputAllSelect = document.querySelector(`.select-doctor`);
                         labelSlDr.forEach(e => {
                             e.classList.remove('active');
+                            inputAllSelect.checked = false;
                         });
+                        inputId.checked = true;
                         labelDR.classList.add('active');
                     }
                 });
@@ -89,6 +94,7 @@ function handleApm() {
     for (var i = 0; i < formAppointment.length; i++) {
         formDataApm.append(formAppointment[i].name, formAppointment[i].value);
     }
+    formDataApm.append('doctorid', $("input[type='radio'][name='doctorid']:checked").val());
     btn_submit_apm.disabled = true;
 
     var xmlhttp = new XMLHttpRequest();
@@ -114,8 +120,8 @@ function handleApm() {
             `;
         },
         complete: function () {
-            document.querySelector(".loading").classList.add("fadeOut");
-            
+            // document.querySelector(".loading").classList.add("fadeOut");
+
         }
         // ......
     });

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>public/assets/style.css">
     <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+    <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>public/images/favicon.ico">
+
     <link rel="stylesheet" href="<?= BASE_URL ?>public/plugins/datepicker/css/bootstrap-datepicker.min.css">
     <script type="text/javascript" src="<?= BASE_URL ?>public/plugins/jquery3.6.0/jquery-3.6.0.min.js"></script>
     <title>Clinic Manager</title>

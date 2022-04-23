@@ -232,7 +232,6 @@ body {
     width: 77%;
 }
 
-.toggle-header .line-2 {}
 
 .toggle-header .line-3 {
     transform: translate(-66%, 4px) rotate(-330deg);
@@ -306,7 +305,6 @@ body {
     background-color: var(--main-sidebar);
 }
 
-.title-cardBox {}
 
 .title-cardBox .quantity-cardBox {
     font-size: 2.5rem;
