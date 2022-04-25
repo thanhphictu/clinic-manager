@@ -212,8 +212,44 @@ if ($data[0] === "update") { ?>
                         if (xmlhttp.readyState == 4 && this.status == 200) {
                             btnSubmitCreate.disabled = false;
                             formCreate.reset();
-                            msgCreate.innerHTML = xmlhttp.responseText;
+                            var response = JSON.parse(xmlhttp.responseText);
+                            if (response.status === 1) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Vui lòng nhập đầy đủ thông tin 😢',
+
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thành công!',
+                                    text: 'Bạn đã tạo tài khoản thành công 🎉',
+                                    confirmButtonText: 'OK',
+
+                                }).then((result) => {
+
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        } else {
+                            document.querySelector(".loading").classList.add("fadeOut");
+                            Swal.fire({
+                                icon: 'question',
+                                title: 'Oopss?',
+                                text: 'Mạng của bạn đã gặp sự cố',
+                                confirmButtonText: 'Tải lại trang',
+
+                            }).then((result) => {
+
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            });
                         }
+
                     }
                     $.ajax({
                         beforeSend: function() {

@@ -79,14 +79,7 @@ class AppointmentController extends DController
                 ->first();
 
             if ($bookingModeldate) {
-                echo '
-                <div class="msg-content-user" 
-                    style="font-size: 23px; font-weight: 600; color: #bf0000;">
-                        Bác sĩ này đã có lịch hẹn trùng với thời gian bạn chọn</br>
-                        Vui lòng chọn bác sĩ khác hoặc thời gian khác.
-                    </div>  
-                
-                ';
+                echo json_encode(array("status" => 2));
             } else {
                 $bookingModel->save();
 
@@ -191,32 +184,13 @@ class AppointmentController extends DController
                         echo "Email của bạn không chính xác: {$mail->ErrorInfo}";
                     }
 
-                    echo '
-                        <div class="msg-content-user" 
-                        style="font-size: 23px; font-weight: 600; color: var(--main-sidebar);">
-                            Đặt lịch khám thành công !! </br>
-                            Vui lòng kiểm tra email.
-                        </div>
-
-                    ';
+                    echo json_encode(array("status" => 0));
                 } else {
-                    echo '
-                            <div class="msg-content-user" 
-                            style="font-size: 23px; font-weight: 600; color: #bf0000;">
-                                Vui lòng kiểm tra lại thông tin ¬¬
-                            </div>  
-
-                        ';
+                    echo json_encode(array("status" => 1));
                 }
             }
         } else {
-            echo '
-            <div class="msg-content-user" 
-            style="font-size: 23px; font-weight: 600; color: #bf0000;">
-                Vui lòng nhập đầy đủ thông tin ¬¬
-            </div>  
-
-        ';
+            echo json_encode(array("status" => 1));
         }
     }
     public function verifytoken()

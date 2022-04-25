@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?= BASE_URL ?>public/plugins/fontawesome-free-6.1.1-web/css/all.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>public/assets/style.css">
     <link href="<?= BASE_URL ?>public/assets/login.css" rel="stylesheet" />
 
     <script type="text/javascript" src="<?= BASE_URL ?>public/plugins/jquery3.6.0/jquery-3.6.0.min.js"></script>

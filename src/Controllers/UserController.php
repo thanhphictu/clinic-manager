@@ -68,24 +68,14 @@ class UserController extends DController
             $userModel->password = md5($_POST['password']);
             $userModel->image = $_FILES["image"]["name"];
             $userModel->save();
-            // header('Location: ' . BASE_URL . 'indexController');
-            echo '
-                <div class="msg-content-user" 
-                style="font-size: 23px; font-weight: 600; color: var(--main-sidebar);">
-                    Tạo tài khoản thành công !!
-                </div>
-               
-            ';
+  
+
+            echo json_encode(array("status" => 0));
+
         } else {
-            echo '
-            
-                <div class="msg-content-user" 
-                style="font-size: 23px; font-weight: 600; color: #bf0000;">
-                    Vui lòng kiểm tra lại thông tin ¬¬
-                </div>
-               
-            ';
-            // header('Location: ' . BASE_URL . 'indexController');
+           
+            echo json_encode(array("status" => 1));
+           
         }
     }
 

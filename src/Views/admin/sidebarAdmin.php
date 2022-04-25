@@ -12,7 +12,10 @@
     <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>public/images/favicon.ico">
 
     <link rel="stylesheet" href="<?= BASE_URL ?>public/plugins/datepicker/css/bootstrap-datepicker.min.css">
+    
     <script type="text/javascript" src="<?= BASE_URL ?>public/plugins/jquery3.6.0/jquery-3.6.0.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <title>Clinic Manager</title>
 </head>
 

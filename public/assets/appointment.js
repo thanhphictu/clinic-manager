@@ -104,7 +104,49 @@ function handleApm() {
         if (xmlhttp.readyState == 4 && this.status == 200) {
             btn_submit_apm.disabled = false;
             formAppointment.reset();
-            msg_apm.innerHTML = xmlhttp.responseText;
+            var response = JSON.parse(xmlhttp.responseText);
+            if (response.status === 1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Vui lòng nhập đầy đủ thông tin ✍',
+
+                })
+            } else if (response.status === 0){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: 'Vui lòng kiểm tra mail của bạn để xác nhận.',
+                    confirmButtonText: 'OK',
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            } else if (response.status === 2) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Vui lòng chọn lại...',
+                    text: 'Bác sĩ này đã có lịch hẹn trùng với thời gian bạn chọn',
+
+                })
+            }
+        } else {
+            document.querySelector(".loading").classList.add("fadeOut");
+            Swal.fire({
+                icon: 'question',
+                title: 'Oopss?',
+                text: 'Mạng của bạn đã gặp sự cố',
+                confirmButtonText: 'Tải lại trang',
+
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
         }
     }
     $.ajax({
